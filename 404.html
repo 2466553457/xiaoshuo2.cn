@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>页面未找到 - 404错误</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(50, 50, 93, 0.1), 0 5px 15px rgba(0, 0, 0, 0.07);
+            overflow: hidden;
+            text-align: center;
+            padding: 50px 40px;
+            position: relative;
+        }
+        
+        .error-code {
+            font-size: 120px;
+            font-weight: 900;
+            color: #4a6ee0;
+            line-height: 1;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 0 rgba(74, 110, 224, 0.1);
+        }
+        
+        .error-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        .error-message {
+            font-size: 18px;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .countdown-box {
+            background-color: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 30px 0;
+            border-left: 5px solid #4a6ee0;
+        }
+        
+        .countdown-text {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 10px;
+        }
+        
+        .countdown {
+            font-size: 36px;
+            font-weight: 700;
+            color: #4a6ee0;
+            display: inline-block;
+            min-width: 50px;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .btn {
+            padding: 14px 32px;
+            font-size: 18px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background-color: #4a6ee0;
+            color: white;
+            box-shadow: 0 4px 14px rgba(74, 110, 224, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background-color: #3a5ed0;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(74, 110, 224, 0.4);
+        }
+        
+        .btn-secondary {
+            background-color: transparent;
+            color: #4a6ee0;
+            border: 2px solid #4a6ee0;
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(74, 110, 224, 0.05);
+            transform: translateY(-3px);
+        }
+        
+        .illustration {
+            max-width: 300px;
+            margin: 30px auto;
+            opacity: 0.9;
+        }
+        
+        .illustration svg {
+            width: 100%;
+            height: auto;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .error-code {
+                font-size: 80px;
+            }
+            
+            .error-title {
+                font-size: 26px;
+            }
+            
+            .countdown {
+                font-size: 28px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .button-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-title">页面未找到</h2>
+        
+        <p class="error-message">
+            抱歉，您访问的页面不存在或已被移除。
+            这可能是因为链接错误、页面已被删除或输入了错误的URL地址。
+        </p>
+        
+        <div class="illustration">
+            <svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                <path d="M100,150 C100,100 150,100 200,150 C250,200 300,200 300,150" stroke="#4a6ee0" stroke-width="8" fill="none" stroke-linecap="round"/>
+                <circle cx="100" cy="150" r="12" fill="#4a6ee0"/>
+                <circle cx="300" cy="150" r="12" fill="#4a6ee0"/>
+                <circle cx="80" cy="120" r="5" fill="#4a6ee0" opacity="0.6"/>
+                <circle cx="320" cy="180" r="7" fill="#4a6ee0" opacity="0.6"/>
+                <circle cx="150" cy="80" r="6" fill="#4a6ee0" opacity="0.5"/>
+                <circle cx="250" cy="220" r="8" fill="#4a6ee0" opacity="0.5"/>
+            </svg>
+        </div>
+        
+        <div class="countdown-box">
+            <p class="countdown-text">页面将在 <span id="countdown" class="countdown">5</span> 秒后自动返回首页</p>
+            <p>如果您不想等待，可以点击下方按钮立即返回</p>
+        </div>
+        
+        <div class="button-container">
+            <a href="/" class="btn btn-primary" id="homeBtn">立即返回首页</a>
+            <button class="btn btn-secondary" id="stopBtn">停止自动跳转</button>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2025 大说小莫 版权所有 | 如需帮助，请联系客服</p>
+    </div>
+
+    <script>
+        // 设置倒计时时间（秒）
+        let countdownTime = 5;
+        const countdownElement = document.getElementById('countdown');
+        const stopBtn = document.getElementById('stopBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        
+        // 更新倒计时显示
+        function updateCountdown() {
+            countdownElement.textContent = countdownTime;
+            
+            if (countdownTime <= 0) {
+                // 倒计时结束，跳转到首页
+                window.location.href = '/';
+            } else {
+                countdownTime--;
+                // 每秒更新一次
+                setTimeout(updateCountdown, 1000);
+            }
+        }
+        
+        // 开始倒计时
+        updateCountdown();
+        
+        // 停止自动跳转功能
+        stopBtn.addEventListener('click', function() {
+            // 清除倒计时（通过设置一个非常大的时间）
+            countdownTime = 9999;
+            countdownElement.textContent = "已停止";
+            stopBtn.textContent = "已停止跳转";
+            stopBtn.disabled = true;
+            stopBtn.style.opacity = "0.7";
+            
+            // 显示确认消息
+            const countdownBox = document.querySelector('.countdown-box');
+            const newMessage = document.createElement('p');
+            newMessage.style.color = "#4a6ee0";
+            newMessage.style.fontWeight = "600";
+            newMessage.style.marginTop = "10px";
+            newMessage.textContent = "自动跳转已停止，您需要手动点击按钮返回首页";
+            countdownBox.appendChild(newMessage);
+        });
+        
+        // 模拟主页URL（在实际使用中替换为您的网站主页URL）
+        homeBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // 这里应该是您网站的主页URL
+            window.location.href = '/';
+        });
+    </script>
+</body>
+</html>

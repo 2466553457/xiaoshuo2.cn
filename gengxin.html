@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>更新公告 - 更新记录</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        color: #333;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 50px;
+        padding: 30px;
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 6px;
+        background: linear-gradient(90deg, #4361ee, #3a0ca3, #7209b7);
+      }
+
+      .title {
+        font-size: 2.8rem;
+        font-weight: 800;
+        color: #333;
+        margin-bottom: 10px;
+        background: linear-gradient(90deg, #4361ee, #3a0ca3);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .subtitle {
+        font-size: 1.2rem;
+        color: #666;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .current-version {
+        display: inline-block;
+        background: linear-gradient(90deg, #4361ee, #3a0ca3);
+        color: white;
+        padding: 10px 25px;
+        border-radius: 50px;
+        font-weight: 600;
+        margin-top: 20px;
+        box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+      }
+
+      .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 0 auto;
+      }
+
+      /* 时间线竖线 */
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 40px;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, #4361ee, #3a0ca3, #7209b7);
+        border-radius: 2px;
+      }
+
+      .version-card {
+        background-color: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+        padding: 30px;
+        position: relative;
+        transition: all 0.3s ease;
+        border-left: 6px solid #4361ee;
+        margin-left: 70px;
+      }
+
+      .version-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      }
+
+      .version-card.major {
+        border-left-color: #4361ee;
+      }
+
+      .version-card.minor {
+        border-left-color: #4cc9f0;
+      }
+
+      /* 时间线圆点 */
+      .version-card::before {
+        content: "";
+        position: absolute;
+        left: -53px;
+        top: 35px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: white;
+        border: 4px solid #4361ee;
+        z-index: 1;
+      }
+
+      .version-card.major::before {
+        border-color: #4361ee;
+        width: 24px;
+        height: 24px;
+        left: -55px;
+      }
+
+      .version-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+      }
+
+      .version-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .version-date {
+        color: #666;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .version-tag {
+        display: inline-block;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        margin-left: 15px;
+      }
+
+      .tag-major {
+        background-color: rgba(67, 97, 238, 0.1);
+        color: #4361ee;
+      }
+
+      .tag-minor {
+        background-color: rgba(76, 201, 240, 0.1);
+        color: #4cc9f0;
+      }
+
+      .tag-mcbor {
+        background-color: rgba(240, 163, 76, 0.1);
+        color: #c24cf0;
+      }
+
+      .update-type-badges {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 20px;
+      }
+
+      .badge {
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .badge-feature {
+        background-color: rgba(72, 187, 120, 0.1);
+        color: #48bb78;
+      }
+
+      .badge-improvement {
+        background-color: rgba(66, 153, 225, 0.1);
+        color: #4299e1;
+      }
+
+      .badge-improvement2 {
+        background-color: rgba(66, 153, 225, 0.1);
+        color: #b0b31d;
+      }
+
+      .badge-fix {
+        background-color: rgba(245, 101, 101, 0.1);
+        color: #f56565;
+      }
+
+      .badge-security {
+        background-color: rgba(159, 122, 234, 0.1);
+        color: #9f7aea;
+      }
+
+      .update-content {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+      }
+
+      .update-item {
+        margin-bottom: 15px;
+        padding-left: 10px;
+        position: relative;
+      }
+
+      .update-item::before {
+        content: "•";
+        position: absolute;
+        left: -5px;
+        color: #4361ee;
+        font-size: 1.5rem;
+      }
+
+      .toggle-btn {
+        background-color: #f8f9fa;
+        border: none;
+        color: #4361ee;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 15px;
+        transition: all 0.2s ease;
+      }
+
+      .toggle-btn:hover {
+        background-color: #e9ecef;
+      }
+
+      .details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease;
+      }
+
+      .details.expanded {
+        max-height: 2000px;
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 60px;
+        padding: 30px;
+        color: #666;
+        font-size: 0.95rem;
+        border-top: 1px solid #e9ecef;
+      }
+
+      .subscribe {
+        background-color: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
+        max-width: 800px;
+        margin: 50px auto;
+        text-align: center;
+      }
+
+      .subscribe h3 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 1.5rem;
+      }
+
+      .subscribe p {
+        color: #666;
+        margin-bottom: 25px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .subscribe-form {
+        display: flex;
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .subscribe-input {
+        flex-grow: 1;
+        padding: 15px 20px;
+        border: 2px solid #e9ecef;
+        border-radius: 8px 0 0 8px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+      }
+
+      .subscribe-input:focus {
+        outline: none;
+        border-color: #4361ee;
+      }
+
+      .subscribe-btn {
+        background: linear-gradient(90deg, #4361ee, #3a0ca3);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 0 8px 8px 0;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .subscribe-btn:hover {
+        background: linear-gradient(90deg, #3a0ca3, #4361ee);
+      }
+
+      @media (max-width: 768px) {
+        .timeline::before {
+          left: 30px;
+        }
+
+        .version-card {
+          margin-left: 60px;
+        }
+
+        .version-card::before {
+          left: -43px;
+        }
+
+        .version-card.major::before {
+          left: -45px;
+        }
+
+        .version-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .version-date {
+          margin-top: 10px;
+        }
+
+        .subscribe-form {
+          flex-direction: column;
+        }
+
+        .subscribe-input {
+          border-radius: 8px 8px 0 0;
+        }
+
+        .subscribe-btn {
+          border-radius: 0 0 8px 8px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .title {
+          font-size: 2.2rem;
+        }
+
+        .container {
+          padding: 10px;
+        }
+
+        .version-card {
+          padding: 20px;
+        }
+      }
+
+      .highlight {
+        background-color: rgba(255, 242, 157, 0.3);
+        padding: 3px 6px;
+        border-radius: 4px;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1 class="title">更新公告</h1>
+        <p class="subtitle">
+          在这里查看产品的最新功能、改进和修复内容。我们持续改进产品，为您提供更好的体验。
+        </p>
+        <div class="current-version">
+          <i class="fas fa-rocket"></i> 当前版本：v0.3.1
+        </div>
+      </header>
+
+      <div class="subscribe">
+        <h3>订阅更新通知</h3>
+        <p>订阅后，每当有新版本发布时，我们会通过电子邮件通知您</p>
+        <div class="subscribe-form">
+          <input
+            type="email"
+            class="subscribe-input"
+            placeholder="请输入您的邮箱地址"
+          />
+          <button class="subscribe-btn">订阅更新</button>
+        </div>
+      </div>
+
+      <div class="timeline">
+        <!-- 版本 0.3.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.3.1 - 网站更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月27日
+              </div>
+            </div>
+            <span class="version-tag tag-mcbor">版本更新</span>
+            <!-- <span class="version-tag tag-major">新增小说</span> -->
+            <!-- <span class="version-tag tag-minor">章节更新</span> -->
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">储存更新</span>
+            <!-- <span class="badge badge-feature">增加功能</span> -->
+            <!-- <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <span class="badge badge-improvement2">乡村怪谈</span> -->
+            <span class="badge badge-improvement">版本更新</span>
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+          <p>
+            1.将服务器的内容克隆到cloudflare云端上，超强DNS解析，增加了网站的速度。
+          </p>
+          <p>
+            2.小说《东北90年代白事先生》全文章更新到了cloudflare云端。
+          </p>
+          <p>
+          3.小说《乡村怪谈》从第91章开始更新到了cloudflare云端。
+          </p>
+          <p>
+          4.cloudflare云端服务器网址：<a href="https://xiaoshuo-cn.pages.dev/" target="_blank">https://xiaoshuo-cn.pages.dev/</a>，新网站第一次收听，是需手动点击相应的文章，才可收听。
+          </p>
+        </div>
+        <!-- 版本 0.2.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.2.1 - 网站更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月27日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-mcbor">版本更新</span> -->
+            <!-- <span class="version-tag tag-major">新增小说</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <!-- <span class="badge badge-feature">增加功能</span> -->
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <span class="badge badge-improvement2">乡村怪谈</span>
+            <!-- <span class="badge badge-improvement">版本更新</span> -->
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+          <p>
+            1.本次小说《乡村怪谈》更新到了《第100章》。
+          </p>
+          <p>
+            2.本次小说《东北90年代白事先生》更新到了《第85章 不吃醋！》。
+          </p>
+        </div>
+        <!-- 版本 0.2.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.2.1 - 网站更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月26日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-mcbor">版本更新</span> -->
+            <!-- <span class="version-tag tag-major">新增小说</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <!-- <span class="badge badge-feature">增加功能</span> -->
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <span class="badge badge-improvement2">乡村怪谈</span>
+            <!-- <span class="badge badge-improvement">版本更新</span> -->
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+          <p>
+            1.本次小说《乡村怪谈》更新到了《第80章》。
+          </p>
+          <p>
+            2.本次小说《东北90年代白事先生》更新到了《第85章 不吃醋！》。
+          </p>
+        </div>
+        <!-- 版本 0.2.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.2.1 - 网站更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月24日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-mcbor">版本更新</span> -->
+            <!-- <span class="version-tag tag-major">新增小说</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <!-- <span class="badge badge-feature">增加功能</span> -->
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <span class="badge badge-improvement2">乡村怪谈</span>
+            <!-- <span class="badge badge-improvement">版本更新</span> -->
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+          <p>
+            1.本次小说《乡村怪谈》更新到了《第50章》。
+          </p>
+          <p>
+            2.本次小说《东北90年代白事先生》更新到了《第76章 女大十八变》。
+          </p>
+        </div>
+        <!-- 版本 0.2.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.2.1 - 网站更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月23日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-mcbor">版本更新</span> -->
+            <!-- <span class="version-tag tag-major">新增小说</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <!-- <span class="badge badge-feature">增加功能</span> -->
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <span class="badge badge-improvement2">乡村怪谈</span>
+            <!-- <span class="badge badge-improvement">版本更新</span> -->
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+          <p>
+            1.本次小说《乡村怪谈》更新到了《第40章》。
+          </p>
+          <p>
+            2.本次小说《东北90年代白事先生》更新到了《第65章 给老子点上！》。
+          </p>
+        </div>
+        <!-- 版本 0.2.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.2.1 - 网站更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月22日
+              </div>
+            </div>
+            <span class="version-tag tag-mcbor">版本更新</span>
+            <!-- <span class="version-tag tag-major">新增小说</span> -->
+            <!-- <span class="version-tag tag-minor">章节更新</span> -->
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">增加功能</span>
+            <!-- <span class="badge badge-feature">新增章节</span> -->
+            <!-- <span class="badge badge-improvement">东北90年代白事先生</span> -->
+            <!-- <span class="badge badge-improvement2">乡村怪谈</span> -->
+            <span class="badge badge-improvement">版本更新</span>
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+          <p>
+            1.本次更新了，网站可以同时，记录多个小说的听音历史记录，并且每一个记录互不影响。
+          </p>
+          <p>
+            2.本次大更新(主要更改了音频的路径)，您上次的播放记录会消失，需要重新手动播放你上次播放的章节，谢谢。
+          </p>
+        </div>
+        <!-- 版本 0.1.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.1.1 - 小说更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月22日
+              </div>
+            </div>
+            <span class="version-tag tag-major">新增小说</span>
+            <!-- <span class="version-tag tag-minor">章节更新</span> -->
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">新增章节</span>
+            <!-- <span class="badge badge-improvement">东北90年代白事先生</span> -->
+            <span class="badge badge-improvement2">乡村怪谈</span>
+            <!-- <span class="badge badge-improvement">版本更新</span> -->
+            <span class="badge badge-fix">新封面</span>
+          </div>
+
+          <p>
+            本次更新小说《乡村怪谈》更新到了《第20章》。
+          </p>
+        </div>
+        <!-- 版本 0.1.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.1.1 - 小说更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月22日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-major">主要更新</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <!-- <span class="badge badge-improvement2">乡村怪谈</span> -->
+            <!-- <span class="badge badge-improvement">版本更新</span> -->
+            <!-- <span class="badge badge-fix">新封面</span> -->
+          </div>
+
+          <p>
+            1.本次小说《东北90年代白事先生》更新到了《第55章 因果》。
+          </p>
+          <p>
+            2.修复了《东北90年代白事先生》第31章节。
+          </p>
+          <p>
+            本次更新小说《乡村怪谈》更新到了《第9章》。
+          </p>
+        </div>
+         <!-- 版本 0.1.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.1.1 - 小说更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月18日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-major">主要更新</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <span class="badge badge-improvement">版本更新</span>
+            <span class="badge badge-fix">修改封面</span>
+          </div>
+
+          <p>
+            1.本次更新到了《第45章 翻个面，趴好了》。
+          </p>
+          <p>
+            2.修改了《东北90年代白事先生》的封面。
+          </p>
+        </div>
+        <!-- 版本 0.1.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.1.0 - 小说更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月16日
+              </div>
+            </div>
+            <!-- <span class="version-tag tag-major">主要更新</span> -->
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <!-- <span class="badge badge-improvement">性能优化</span>
+            <span class="badge badge-fix">问题修复</span> -->
+          </div>
+
+          <p>
+            本次更新到了《第34章 不对啊》。
+          </p>
+
+          <!-- <button class="toggle-btn" onclick="toggleDetails(this)">
+            <i class="fas fa-chevron-down"></i> 查看更新详情
+          </button>
+
+          <div class="details">
+            <div class="update-content">
+              <h4><i class="fas fa-star"></i> 新功能</h4>
+              <div class="update-item">
+                新增<span class="highlight">智能助手</span
+                >功能，支持自然语言交互，提供更便捷的操作体验
+              </div>
+              <div class="update-item">
+                新增<span class="highlight">数据可视化</span
+                >面板，支持自定义图表和实时数据展示
+              </div>
+              <div class="update-item">
+                新增多语言支持，现已支持<span class="highlight"
+                  >中文、英文、日文</span
+                >三种语言
+              </div>
+
+              <h4><i class="fas fa-bolt"></i> 性能优化</h4>
+              <div class="update-item">
+                页面加载速度提升<span class="highlight">40%</span
+                >，优化了资源加载策略
+              </div>
+              <div class="update-item">
+                数据库查询优化，复杂查询响应时间减少<span class="highlight"
+                  >60%</span
+                >
+              </div>
+              <div class="update-item">移动端体验优化，适配更多尺寸的屏幕</div>
+
+              <h4><i class="fas fa-bug"></i> 问题修复</h4>
+              <div class="update-item">修复了导出数据时格式错误的问题</div>
+              <div class="update-item">
+                修复了在 Safari 浏览器中部分样式显示异常的问题
+              </div>
+              <div class="update-item">修复了登录状态偶尔丢失的问题</div>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- 版本 0.1.0 -->
+        <div class="version-card minor">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.1.0 - 小说更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月15日
+              </div>
+            </div>
+            <span class="version-tag tag-minor">章节更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">新增章节</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+            <!-- <span class="badge badge-fix">问题修复</span> -->
+          </div>
+
+          <p>本次更新到了《第20章 孝子王大炮》。</p>
+
+          <!-- <button class="toggle-btn" onclick="toggleDetails(this)">
+            <i class="fas fa-chevron-down"></i> 查看更新详情
+          </button>
+
+          <div class="details">
+            <div class="update-content">
+              <h4><i class="fas fa-shield-alt"></i> 安全更新</h4>
+              <div class="update-item">升级了加密算法，提升数据传输安全性</div>
+              <div class="update-item">增强了身份验证机制，防止未授权访问</div>
+              <div class="update-item">修复了潜在的跨站脚本(XSS)漏洞</div>
+
+              <h4><i class="fas fa-bug"></i> 问题修复</h4>
+              <div class="update-item">
+                修复了文件上传过程中可能出现的超时问题
+              </div>
+              <div class="update-item">修复了夜间模式下的文本对比度问题</div>
+              <div class="update-item">修复了通知系统偶尔重复发送的问题</div>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- 版本 0.0.1 -->
+        <div class="version-card major">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v0.1.0 - 小说更新</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2025年12月15日
+              </div>
+            </div>
+            <span class="version-tag tag-major">新增小说</span>
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-feature">新小说</span>
+            <span class="badge badge-improvement">东北90年代白事先生</span>
+          </div>
+
+          <p>
+            本次更新了新的小说《东北90年代白事先生》。
+          </p>
+
+          <!-- <button class="toggle-btn" onclick="toggleDetails(this)">
+            <i class="fas fa-chevron-down"></i> 查看更新详情
+          </button>
+
+          <div class="details">
+            <div class="update-content">
+              <h4><i class="fas fa-star"></i> 新功能</h4>
+              <div class="update-item">
+                新增<span class="highlight">实时协作</span
+                >功能，支持多人同时编辑文档
+              </div>
+              <div class="update-item">
+                新增<span class="highlight">评论和批注</span>系统，便于团队沟通
+              </div>
+              <div class="update-item">
+                新增任务分配和跟踪功能，提升项目管理效率
+              </div>
+
+              <h4><i class="fas fa-bolt"></i> 性能优化</h4>
+              <div class="update-item">
+                优化了实时同步机制，减少网络带宽占用
+              </div>
+              <div class="update-item">提升了大规模团队协作时的系统稳定性</div>
+              <div class="update-item">优化了内存使用，减少浏览器资源占用</div>
+            </div>
+          </div> -->
+        </div>
+
+        <!-- 版本 2.3.2 -->
+        <!-- <div class="version-card minor">
+          <div class="version-header">
+            <div>
+              <h2 class="version-title">v2.3.2 - 用户体验优化</h2>
+              <div class="version-date">
+                <i class="far fa-calendar-alt"></i> 2023年8月5日
+              </div>
+            </div>
+            <span class="version-tag tag-minor">次要更新</span>
+          </div>
+
+          <div class="update-type-badges">
+            <span class="badge badge-improvement">用户体验</span>
+            <span class="badge badge-fix">问题修复</span>
+          </div>
+
+          <p>本次更新主要优化了用户界面和交互体验，修复了一些界面显示问题。</p>
+
+          <button class="toggle-btn" onclick="toggleDetails(this)">
+            <i class="fas fa-chevron-down"></i> 查看更新详情
+          </button>
+
+          <div class="details">
+            <div class="update-content">
+              <h4><i class="fas fa-paint-brush"></i> 用户体验优化</h4>
+              <div class="update-item">
+                重新设计了设置页面，使其更加直观易用
+              </div>
+              <div class="update-item">
+                优化了移动端的导航菜单，提升操作便捷性
+              </div>
+              <div class="update-item">增加了更多键盘快捷键，提升操作效率</div>
+
+              <h4><i class="fas fa-bug"></i> 问题修复</h4>
+              <div class="update-item">
+                修复了深色模式下部分按钮显示异常的问题
+              </div>
+              <div class="update-item">
+                修复了日期选择器在特定时区显示错误的问题
+              </div>
+              <div class="update-item">修复了图片上传后预览不清晰的问题</div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <footer>
+        <p>© 2025 大说小莫 版权所有</p>
+        <p>
+          更新公告页面 | 版本历史记录 |
+          <a href="/index.html" style="color: #4361ee; text-decoration: none">返回首页</a>
+        </p>
+        <p style="margin-top: 15px; font-size: 0.85rem; color: #888">
+          如果您遇到任何问题或有建议，请联系我们的技术支持团队。
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // 展开/折叠详情内容
+      function toggleDetails(button) {
+        const details = button.nextElementSibling;
+        const icon = button.querySelector("i");
+
+        if (details.classList.contains("expanded")) {
+          details.classList.remove("expanded");
+          icon.className = "fas fa-chevron-down";
+          button.innerHTML = '<i class="fas fa-chevron-down"></i> 查看更新详情';
+        } else {
+          details.classList.add("expanded");
+          icon.className = "fas fa-chevron-up";
+          button.innerHTML = '<i class="fas fa-chevron-up"></i> 收起详情';
+        }
+      }
+
+      // 订阅表单处理
+      const subscribeBtn = document.querySelector(".subscribe-btn");
+      const emailInput = document.querySelector(".subscribe-input");
+
+      subscribeBtn.addEventListener("click", function () {
+        const email = emailInput.value.trim();
+
+        if (!email) {
+          alert("请输入邮箱地址");
+          emailInput.focus();
+          return;
+        }
+
+        if (!validateEmail(email)) {
+          alert("请输入有效的邮箱地址");
+          emailInput.focus();
+          return;
+        }
+
+        // 模拟订阅成功
+        subscribeBtn.innerHTML = '<i class="fas fa-check"></i> 已订阅';
+        subscribeBtn.style.background =
+          "linear-gradient(90deg, #48bb78, #38a169)";
+        subscribeBtn.disabled = true;
+        emailInput.disabled = true;
+
+        // 显示成功消息
+        const form = document.querySelector(".subscribe-form");
+        const successMsg = document.createElement("div");
+        successMsg.style.color = "#48bb78";
+        successMsg.style.marginTop = "15px";
+        successMsg.style.fontWeight = "600";
+        successMsg.innerHTML = "订阅成功！您将在新版本发布时收到通知。";
+        form.parentNode.insertBefore(successMsg, form.nextSibling);
+      });
+
+      // 邮箱验证函数
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      // 页面加载时默认展开最新版本的详情
+      document.addEventListener("DOMContentLoaded", function () {
+        const firstToggleBtn = document.querySelector(".toggle-btn");
+        if (firstToggleBtn) {
+          firstToggleBtn.click();
+        }
+      });
+    </script>
+  </body>
+</html>
